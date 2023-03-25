@@ -29,17 +29,22 @@ function handleInput(e) {
 
   RestCountriesAPI.fetchCountries()
     .then(country => {
+
       counrtyListEl.innerHTML = '';
       counrtyCardEl.innerHTML = '';
-      console.log(country);
+      
       if (country.length > 10) {
         Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
       } else if (country.length >= 2 && country.length <= 10) {
+
         renderCountryList(country);
+
       } else if (country.length === 1) {
+
         renderCountryCard(country);
+        
       }
     })
     .catch(error => {

@@ -17,30 +17,29 @@ const RestCountriesAPI = new RestCountriesApi();
 inputEl.addEventListener('input', debounce(handleInput, DEBOUNCE_DELAY));
 
 function handleInput(e) {
-  console.dir(e.target.value);
-
-  // const inputValue = e.target.value.trim();
 
   const searchQuery = e.target.value.trim();
   RestCountriesAPI.query = searchQuery;
 
   if (searchQuery === '') {
+    counrtyListEl.innerHTML = '';
+    counrtyCardEl.innerHTML = '';
     return;
   }
+
   RestCountriesAPI.fetchCountries()
     .then(country => {
+      counrtyListEl.innerHTML = '';
+      counrtyCardEl.innerHTML = '';
       console.log(country);
       if (country.length > 10) {
         Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
-      } else if (country.length === 1) {
-        renderCountryCard(country);
-        // counrtyListEl.remove();
-       
       } else if (country.length >= 2 && country.length <= 10) {
         renderCountryList(country);
-        // counrtyCardEl.remove();
+      } else if (country.length === 1) {
+        renderCountryCard(country);
       }
     })
     .catch(error => {
@@ -54,7 +53,7 @@ function renderCountryCard(country) {
       return `
         <div class='country-element--big'><img src=${
           flags.svg
-        } width='30px' height='30px' />
+        } width='40px' height='40px' />
         <h2 class="country-title">${name.official}</h2></div>
         <p><b>Capital</b>: ${capital}</p>
         <p><b>Population</b>: ${population}</p>
@@ -62,10 +61,8 @@ function renderCountryCard(country) {
       `;
     })
     .join('');
-    counrtyListEl.remove();
-    // counrtyListEl.innerHTML;
+
   counrtyCardEl.innerHTML = markup;
-  
 }
 
 function renderCountryList(country) {
@@ -78,8 +75,6 @@ function renderCountryList(country) {
     `;
     })
     .join('');
-    
-    // counrtyCardEl.innerHTML;
+
   counrtyListEl.innerHTML = markup;
-  
 }

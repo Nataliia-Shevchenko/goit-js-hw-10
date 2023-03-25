@@ -25,6 +25,7 @@ function handleInput(e) {
     counrtyListEl.innerHTML = '';
     counrtyCardEl.innerHTML = '';
     return;
+    
   }
 
   RestCountriesAPI.fetchCountries()
